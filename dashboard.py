@@ -5,6 +5,7 @@ import os
 import time
 import subprocess
 import sys
+from supabase import create_client
 REFRESH_SECONDS = 60
 HISTORY_FILE = "signal_history.json"
 with open(HISTORY_FILE, "r") as f:
@@ -14,6 +15,9 @@ st.set_page_config(
     page_title="KMN Shadow Signal",
     page_icon="📈",
     layout="wide"
+)supabase = create_client(
+    st.secrets["NEXT_PUBLIC_SUPABASE_URL=https://efwubsygzrtxhkxrzgzv.supabase.co"],
+    st.secrets["NEXT_PUBLIC_SUPABASE_URL=https://efwubsygzrtxhkxrzgzv.supabase.co"]
 )
 
 st.title("KMN Shadow Signal")
