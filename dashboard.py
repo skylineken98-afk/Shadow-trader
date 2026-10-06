@@ -3,6 +3,8 @@ import streamlit as st
 import pandas as pd
 import os
 import time
+import subprocess
+import sys
 REFRESH_SECONDS = 60
 HISTORY_FILE = "signal_history.json"
 with open(HISTORY_FILE, "r") as f:
@@ -16,6 +18,22 @@ st.set_page_config(
 
 st.title("KMN Shadow Signal")
 st.caption("Scan • Score • Signal")
+if st.button("🔄 Run Live Scanner"):
+    with st.spinner("Scanning options market..."):
+        result = subprocess.run(
+            [sys.executable, "option_scanner.py"],
+            input="\n\n",
+            text=True,
+            capture_output=True,
+            timeout=180
+        )
+
+        if result.returncode == 0:
+            st.success("Scan complete.")
+            st.rerun()
+        else:
+            st.error("Scanner failed.")
+            st.code(result.stderr)
 
 st.info("Options scanner dashboard is online.")
 
