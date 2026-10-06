@@ -17,8 +17,8 @@ st.set_page_config(
     layout="wide"
 )
 supabase = create_client(
-    st.secrets["SUPABASE_URL"],
-    st.secrets["SUPABASE_PUBLISHABLE_KEY"]
+    st.secrets["NEXT_PUBLIC_SUPABASE_URL"],
+    st.secrets["NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"]
 )
 
 st.title("KMN Shadow Signal")
