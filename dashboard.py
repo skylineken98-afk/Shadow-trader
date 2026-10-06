@@ -72,6 +72,18 @@ try:
                 signal["high_price"] = signal["ask"]
                 signal_history.append(signal.to_dict())
                 known_contracts.add(signal["contract"])
+
+        supabase_admin.table("signals").insert({
+    "contract": signal.get("contract"),
+    "underlying": signal.get("underlying"),
+    "option_type": signal.get("option_type"),
+    "strike": signal.get("strike"),
+    "expiration": signal.get("expiration"),
+    "entry_price": signal.get("entry_price", signal.get("ask")),
+    "current_price": signal.get("current_price", signal.get("ask")),
+    "score": signal.get("score"),
+    "scanned_at": signal.get("scanned_at"),
+}).execute()
         with open(HISTORY_FILE, "w") as f:
             json.dump(signal_history, f, indent=2)
         st.metric("Signals Found", len(df))
