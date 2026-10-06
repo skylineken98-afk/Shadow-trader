@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 from alpaca.data.historical.option import OptionHistoricalDataClient
 from alpaca.data.requests import OptionChainRequest
+from supabase import create_client
 
 load_dotenv()
 
@@ -312,3 +313,24 @@ import json
 
 with open("option_scan_results.json", "w") as f:
     json.dump(all_results, f, indent=2)
+
+supabase_url = os.environ.get("SUPABASE_URL")
+supabase_key = os.environ.get("SUPABASE_SERVICE_KEY")
+
+if supabase_url and supabase_key and all_results:
+    supabase = create_client(supabase_url, supabase_key)
+
+    for signal in all_results:
+        supabase.table("signals").insert({
+            "contract": signal.get("contract"),
+            "underlying": signal.get("underlying"),
+            "option_type": signal.get("option_type"),
+            "strike": signal.get("strike"),
+            "expiration": signal.get("expiration"),
+            "entry_price": signal.get("ask"),
+            "current_price": signal.get("ask"),
+            "score": signal.get("score"),
+            "scanned_at": datetime.now(timezone.utc).isoformat(),
+        }).execute()
+
+    print(f"Saved {len(all_results)} signals to Supabase.")
