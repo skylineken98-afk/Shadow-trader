@@ -73,11 +73,21 @@ try:
         st.metric("Signals Found", len(df))
         st.subheader("top 10 option Signals")
         tab_request, tab_0dte, tab_swing, tab_leaps, tab_winners = st.tabs(["🎯 Request Signal", "⚡ 0DTE", "📈 Swings", "🚀 LEAPS", "🏆 Winners"])
-        with tab_request:
-            st.subheader("🎯 Request Signal")
-            pass
-        
-        with tab_swing:
+
+        with tab_0dte:
+    today = pd.Timestamp.now().date()
+    expirations = pd.to_datetime(df["expiration"]).dt.date
+
+    odte_signals = df[expirations == today].sort_values(
+        "score",
+        ascending=False
+    ).head(10)
+
+    if odte_signals.empty:
+        st.info("No 0DTE signals available right now.")
+    else:
+        st.dataframe(odte_signals, width="stretch")
+with tab_swing:
             swing_signals = df[
     (pd.to_datetime(df["expiration"]) > pd.Timestamp.now() + pd.Timedelta(days=1)) &
     (pd.to_datetime(df["expiration"]) <= pd.Timestamp.now() + pd.Timedelta(days=90))
@@ -100,6 +110,7 @@ try:
 except FileNotFoundError:
     st.error("No scan results found yet. Run the option scanner first.")
 st.divider()
+with tab_request:
 st.header("🎯 Request a Signal")
 
 signal_type = st.selectbox(
