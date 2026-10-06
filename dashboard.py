@@ -87,11 +87,11 @@ try:
         st.info("No 0DTE signals available right now.")
     else:
         st.dataframe(odte_signals, width="stretch")
-with tab_swing:
-            swing_signals = df[
-    (pd.to_datetime(df["expiration"]) > pd.Timestamp.now() + pd.Timedelta(days=1)) &
-    (pd.to_datetime(df["expiration"]) <= pd.Timestamp.now() + pd.Timedelta(days=90))
-].sort_values("score", ascending=False).head(10)
+    with tab_swing:
+                swing_signals = df[
+        (pd.to_datetime(df["expiration"]) > pd.Timestamp.now() + pd.Timedelta(days=1)) &
+        (pd.to_datetime(df["expiration"]) <= pd.Timestamp.now() + pd.Timedelta(days=90))
+    ].sort_values("score", ascending=False).head(10)
 
         st.dataframe(swing_signals, width="stretch")
     with tab_leaps:
@@ -111,23 +111,23 @@ except FileNotFoundError:
     st.error("No scan results found yet. Run the option scanner first.")
 st.divider()
 with tab_request:
-st.header("🎯 Request a Signal")
-
-signal_type = st.selectbox(
-    "Trade style",
-        ["0DTE", "Swing", "LEAPS"]
-)
-
-max_budget = st.number_input(
-    "Maximum contract cost ($)",
-    min_value=1,
-    max_value=10000,
-    value=300,
-    step=25
-)
-
-more_time = st.checkbox("Prefer more time before expiration")
-request_signal = st.button("Request a Signal")
+    st.header("🎯 Request a Signal")
+    
+    signal_type = st.selectbox(
+        "Trade style",
+            ["0DTE", "Swing", "LEAPS"]
+    )
+    
+    max_budget = st.number_input(
+        "Maximum contract cost ($)",
+        min_value=1,
+        max_value=10000,
+        value=300,
+        step=25
+    )
+    
+    more_time = st.checkbox("Prefer more time before expiration")
+    request_signal = st.button("Request a Signal")
 if request_signal:
         if "df" not in locals() or df.empty:
             st.warning("No scan results available yet. Run the option scanner first.")
