@@ -75,13 +75,13 @@ try:
         tab_request, tab_0dte, tab_swing, tab_leaps, tab_winners = st.tabs(["🎯 Request Signal", "⚡ 0DTE", "📈 Swings", "🚀 LEAPS", "🏆 Winners"])
 
         with tab_0dte:
-    today = pd.Timestamp.now().date()
-    expirations = pd.to_datetime(df["expiration"]).dt.date
+            today = pd.Timestamp.now().date()
+            expirations = pd.to_datetime(df["expiration"]).dt.date
 
-    odte_signals = df[expirations == today].sort_values(
-        "score",
-        ascending=False
-    ).head(10)
+        odte_signals = df[expirations == today].sort_values(
+            "score",
+            ascending=False
+        ).head(10)
 
     if odte_signals.empty:
         st.info("No 0DTE signals available right now.")
