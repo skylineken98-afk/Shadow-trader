@@ -95,6 +95,9 @@ max_budget = st.number_input(
 more_time = st.checkbox("Prefer more time before expiration")
 request_signal = st.button("Request a Signal")
 if request_signal:
+        if "df" not in locals() or df.empty:
+        st.warning("No scan results available yet. Run the option scanner first.")
+        st.stop()
         matches = df[df["cost"] <= max_budget].copy()
         expiration_dates = pd.to_datetime(matches["expiration"]).dt.date
 
