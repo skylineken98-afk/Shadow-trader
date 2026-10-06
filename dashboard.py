@@ -93,7 +93,7 @@ try:
         (pd.to_datetime(df["expiration"]) <= pd.Timestamp.now() + pd.Timedelta(days=90))
         ].sort_values("score", ascending=False).head(10)
 
-        st.dataframe(swing_signals, width="stretch")
+            st.dataframe(swing_signals, width="stretch")
     with tab_leaps:
         leaps_signals = df[
             pd.to_datetime(df["expiration"]) > pd.Timestamp.now() + pd.Timedelta(days=90)
