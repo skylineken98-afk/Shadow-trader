@@ -1,0 +1,1 @@
+trade_id,timestamp_utc,symbol,direction,market_state,setup_type,confidence,underlying_entry,contract,option_entry,estimated_cost,invalidation,status,underlying_exit,option_exit,return_pct,mfe_pct,mae_pct,exit_reason
