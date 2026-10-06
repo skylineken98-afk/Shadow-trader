@@ -20,6 +20,10 @@ supabase = create_client(
     st.secrets["NEXT_PUBLIC_SUPABASE_URL"],
     st.secrets["NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"]
 )
+supabase_admin = create_client(
+    st.secrets["NEXT_PUBLIC_SUPABASE_URL"],
+    st.secrets["SUPABASE_SERVICE_KEY"]
+)
 
 st.title("KMN Shadow Signal")
 st.caption("Scan • Score • Signal")
